@@ -5,6 +5,8 @@ Module.register("MMM-BartTimes", {
         key : 'MW9S-E7SL-26DU-VV8V', // Public BART API key
         train_blacklist: [],
         updateInterval : 30000, // 30 seconds
+        showTrainColor: true,
+        trainColorStyle: "bar",
     },
 
     // Define start sequence.
@@ -38,7 +40,7 @@ Module.register("MMM-BartTimes", {
         var wrapper = document.createElement("div");
 
         if (!this.info) {
-            wrapper.innerHTML = "LOADING";
+            wrapper.innerHTML = "Loading...";
             wrapper.className = "dimmed light small";
             return wrapper;
         }
@@ -46,9 +48,9 @@ Module.register("MMM-BartTimes", {
         var table = document.createElement("table");
         table.className = "small";
 
-        this.info.trains.forEach(train_name => {
+        this.info.trains.forEach(train => {
 
-            if (this.config.train_blacklist.includes(train_name)) {
+            if (this.config.train_blacklist.includes(train.dest)) {
                 console.log('gottem')
                 return;
             }
@@ -56,12 +58,27 @@ Module.register("MMM-BartTimes", {
             var row = document.createElement("tr");
             table.appendChild(row);
 
-            var trainCell = document.createElement("td");
-            trainCell.className = "train";
-            trainCell.innerHTML = train_name;
-            row.appendChild(trainCell);
+            if (this.config.showTrainColor) {
+                var trainColorCell = document.createElement("td");
+                trainColorCell.className = "traincolor";
+                row.appendChild(trainColorCell);
 
-            this.info[train_name].forEach( time_to_departure => {
+                var trainColorSpan = document.createElement("span");
+                if (this.config.trainColorStyle == "dot") {
+                    trainColorSpan.className = "color_dot";
+                } else {
+                    trainColorSpan.className = "color_bar";
+                }
+                trainColorSpan.style.backgroundColor = train.hex_color;
+                trainColorCell.appendChild(trainColorSpan);
+            }
+
+            var trainNameCell = document.createElement("td");
+            trainNameCell.className = "train";
+            trainNameCell.innerHTML = train.dest;
+            row.appendChild(trainNameCell);
+
+            train.departures.forEach(time_to_departure => {
                 var timeCell = document.createElement("td");
                 timeCell.className = "time";
                 if (!isNaN(time_to_departure)) {

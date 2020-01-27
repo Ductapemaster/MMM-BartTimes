@@ -32,18 +32,24 @@ module.exports = NodeHelper.create({
             request(bart_url.href, function (error, response, body) {
                 var departure_times = {};
                 departure_times.trains = [];
+
                 if (!error && response.statusCode == 200) {
 
                     trains = JSON.parse(body).root.station[0];
                     departure_times.station_name = trains.name;
 
                     trains.etd.forEach(train => {
-                        departure_times.trains.push(train.destination);
-                        departure_times[train.destination] = [];
+                        var train_info = {};
+                        train_info.dest = train.destination;
+                        train_info.departures = [];
                         train.estimate.forEach(est => {
-                            departure_times[train.destination].push(est.minutes);
-                        })
+                            train_info.departures.push(est.minutes);
+                            train_info.color = est.color;
+                            train_info.hex_color = est.hexcolor;
+                        });
+                        departure_times.trains.push(train_info);
                     });
+
                     console.log("Train times loaded:" + departure_times);
                     self.sendSocketNotification("DEPARTURE_TIMES", departure_times);
                 }

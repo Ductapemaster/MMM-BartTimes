@@ -1,8 +1,31 @@
 .train {
-  padding-left: 0;
   padding-right: 15px;
 }
+
 .time {
-	padding-right: 10px;
-	text-align: right;
+  padding-left: 10px;
+  text-align: right;
+}
+
+.traincolor {
+  padding-right: 7px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  display: inline-block;
+  height: 27px;
+}
+
+.color_dot {
+  height: 12px;
+  width: 12px;
+  border-radius: 50%;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.color_bar {
+  height: 100%;
+  width: 5px;
+  display: inline-block;
+  vertical-align: middle;
 }
