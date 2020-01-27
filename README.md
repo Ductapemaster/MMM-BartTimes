@@ -16,6 +16,8 @@ This exists thanks to BART providing an easy public API, which can be found [her
 | `station` | string | The station abbreviation for your BART station of choice. Abbreviations can be found [here](http://api.bart.gov/api/stn.aspx?cmd=stns&key=MW9S-E7SL-26DU-VV8V) (under the tag `<abbr>`). |
 | `key` | string (optional) | API key if you want your own so you aren't at the mercy of BART changing their public one.  You can request a key [here](http://api.bart.gov/api/register.aspx). |
 | `train_blacklist` | list of strings (optional) | Line names included in this list will not be displayed on your Magic Mirror.|
+| `showTrainColor` | boolean | Enable or disable the display of train color to the left of the train destination.|
+| `trainColorStyle` | string (`dot` or `bar`) | Set style of train color displayed.  `dot` shows a round dot, and `bar`shows a thin bar to the left of the train destination.  This parameter is ignored if `showTrainColor` is `false`|
 
 Example configuration file:
 ```
@@ -26,6 +28,8 @@ Example configuration file:
 		station: '19th',
 		train_blacklist: ['Dublin/Pleasanton'],
 		key: 'IFYO-UWAN-TYOU-ROWN',
+		showTrainColor: true,
+                trainColorStyle: 'bar',
 	}
 },
 ```
